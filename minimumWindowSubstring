@@ -1,0 +1,35 @@
+def minWindow(s,t):
+	if t =='': return ''
+	dp = {}
+	for tc in t:
+		dp[tc] = 1 + dp.get(tc,0)
+	have, need = 0,len(dp)
+	window = {}
+	result = [-1,-1]
+	resLen = float('inf')
+
+	l = 0
+	for r in range(len(s)):
+		curr = s[r]
+		window[curr] = 1 + window.get(curr,0)
+		if curr in dp and window[curr] == dp[curr]:
+			have += 1
+		while have == need:
+			if (r-l+1) < resLen:
+				resLen = r - l + 1
+				result = [l,r]
+			window[s[l]] -= 1
+			if s[l] in dp and window[s[l]] < dp[s[l]]:
+				have -= 1
+			l += 1
+	l,r = result
+
+	return s[l:r+1] if resLen != float('inf') else ''
+
+
+
+
+s = 'aa'
+t = 'aa'
+
+print(minWindow(s,t))
